@@ -1,7 +1,12 @@
+import 'package:chicken_game/app/app.dart';
 import 'package:chicken_game/bootstrap.dart';
-import 'package:chicken_game/game/game.dart';
-import 'package:flame/game.dart';
+import 'package:chicken_game/injector.dart' as di;
+import 'package:flutter/material.dart';
 
-void main() {
-  bootstrap(() => GameWidget(game: ChickenGame()));
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await di.initializeDependencies();
+
+  await bootstrap(() => const App());
 }
