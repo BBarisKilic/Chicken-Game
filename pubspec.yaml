@@ -12,6 +12,7 @@ dependencies:
   equatable: ^2.0.3
   flame: ^1.2.1
   flame_behaviors: ^0.1.1
+  flame_tiled: ^1.7.1
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.1
@@ -37,3 +38,5 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/world/
+    - assets/tiles/
