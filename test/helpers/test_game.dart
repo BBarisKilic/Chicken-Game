@@ -1,16 +1,12 @@
-import 'dart:ui';
+import 'package:chicken_game/game/game.dart';
 
-import 'package:flame/flame.dart';
-import 'package:flame/game.dart';
-import 'package:flame/input.dart';
-
-class TestGame extends FlameGame
-    with HasKeyboardHandlerComponents, HasDraggables, HasCollisionDetection {
-  TestGame() {
-    images.prefix = '';
-    Flame.images.prefix = '';
-  }
+class TestGame extends ChickenGame {
+  TestGame() : super();
 
   @override
-  Color backgroundColor() => const Color(0xFFFFFFFF);
+  Future<void>? onLoad() async {
+    final futures = preLoadAssets().map((loadableBuilder) => loadableBuilder());
+    await Future.wait<void>(futures);
+    return super.onLoad();
+  }
 }
