@@ -1,3 +1,4 @@
+import 'package:chicken_game/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 
 class LoadingPage extends StatelessWidget {
@@ -8,13 +9,19 @@ class LoadingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Center(
-        child: LinearProgressIndicator(
-          value: _progress,
-          color: Colors.red,
-        ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('${l10n.localeName} $_progress'),
+          LinearProgressIndicator(
+            value: _progress,
+            color: Colors.red,
+          ),
+        ],
       ),
     );
   }
