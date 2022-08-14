@@ -20,21 +20,20 @@ class Chicken extends Entity {
             leftKey: leftKey,
             rightKey: rightKey,
           ),
-          chickenSpriteComponent:
-              ChickenSpriteComponent(textureSize: _chickenSize)
-                ..size = _chickenScaleFactor,
+          chickenSprite: ChickenSprite(textureSize: _chickenSize)
+            ..size = _chickenScaleFactor,
         );
 
   Chicken._({
     required Vector2 center,
     required Behavior movingBehavior,
-    required ChickenSpriteComponent chickenSpriteComponent,
-  })  : _chickenSpriteComponent = chickenSpriteComponent,
+    required ChickenSprite chickenSprite,
+  })  : _chickenSprite = chickenSprite,
         super(
           position: center,
           anchor: Anchor.center,
           behaviors: [movingBehavior],
-          children: [chickenSpriteComponent],
+          children: [chickenSprite],
         );
 
   Chicken.wasd({
@@ -57,10 +56,10 @@ class Chicken extends Entity {
           rightKey: LogicalKeyboardKey.arrowRight,
         );
 
-  final ChickenSpriteComponent _chickenSpriteComponent;
+  final ChickenSprite _chickenSprite;
 
   void updateState({required ChickenState state}) =>
-      _chickenSpriteComponent.updateState(state: state);
+      _chickenSprite.updateState(state: state);
 
   static final _chickenSize = Vector2(32, 34);
   static final _chickenScaleFactor = _chickenSize * 2.0;

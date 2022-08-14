@@ -38,7 +38,7 @@ void main() {
         await game.ready();
 
         expect(
-          game.descendants().whereType<ChickenSpriteComponent>().length,
+          game.descendants().whereType<ChickenSprite>().length,
           equals(1),
         );
       });

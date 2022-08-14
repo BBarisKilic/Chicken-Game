@@ -3,9 +3,9 @@ import 'package:chicken_game/game/game.dart';
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 
-class ChickenSpriteComponent extends SpriteAnimationGroupComponent<ChickenState>
+class ChickenSprite extends SpriteAnimationGroupComponent<ChickenState>
     with HasGameRef<ChickenGame> {
-  ChickenSpriteComponent({
+  ChickenSprite({
     ChickenState state = const ChickenState.idle(),
     required Vector2 textureSize,
   })  : _state = state,
