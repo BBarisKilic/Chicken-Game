@@ -1,6 +1,6 @@
 // ignore_for_file: cascade_invocations
 
-import 'package:chicken_game/components/chicken_sprite_component.dart';
+import 'package:chicken_game/components/components.dart';
 import 'package:chicken_game/entities/chicken/behaviors/behaviors.dart';
 import 'package:chicken_game/entities/entities.dart';
 import 'package:chicken_game/game/game.dart';
@@ -10,16 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class _TestChickenGame extends ChickenGame {
-  _TestChickenGame() : super();
-
-  @override
-  Future<void>? onLoad() async {
-    final futures = preLoadAssets().map((loadableBuilder) => loadableBuilder());
-    await Future.wait<void>(futures);
-    return super.onLoad();
-  }
-}
+import '../helpers/helpers.dart';
 
 mixin _DiagnosticableToStringMixin on Object {
   @override
@@ -36,7 +27,7 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('ChickenGame', () {
-    final flameTester = FlameTester<_TestChickenGame>(_TestChickenGame.new);
+    final flameTester = FlameTester<TestGame>(TestGame.new);
 
     test('can be instantiated', () {
       expect(ChickenGame(), isA<ChickenGame>());
