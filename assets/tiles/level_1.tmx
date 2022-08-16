@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.9" tiledversion="1.9.1" orientation="orthogonal" renderorder="right-down" width="80" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="2" nextobjectid="1">
  <tileset firstgid="1" name="brown" tilewidth="16" tileheight="16" tilecount="16" columns="4">
-  <image source="FlutterProjects/chicken_game/assets/images/world/brown.png" width="64" height="64"/>
+  <image source="../images/world/brown.png" width="64" height="64"/>
  </tileset>
  <tileset firstgid="17" name="dust_particle" tilewidth="16" tileheight="16" tilecount="1" columns="1">
-  <image source="FlutterProjects/chicken_game/assets/images/world/dust_particle.png" width="16" height="16"/>
+  <image source="../images/world/dust_particle.png" width="16" height="16"/>
  </tileset>
  <tileset firstgid="18" name="pink" tilewidth="16" tileheight="16" tilecount="16" columns="4">
-  <image source="FlutterProjects/chicken_game/assets/images/world/pink.png" width="64" height="64"/>
+  <image source="../images/world/pink.png" width="64" height="64"/>
  </tileset>
  <tileset firstgid="34" name="terrain_16_16" tilewidth="16" tileheight="16" tilecount="242" columns="22">
-  <image source="FlutterProjects/chicken_game/assets/images/world/terrain_16_16.png" width="352" height="176"/>
+  <image source="../images/world/terrain_16_16.png" width="352" height="176"/>
  </tileset>
  <layer id="1" name="Kachelebene 1" width="80" height="40">
   <data encoding="base64">
