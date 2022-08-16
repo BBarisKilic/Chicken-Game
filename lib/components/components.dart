@@ -1,1 +1,1 @@
-export 'chicken_sprite_component.dart';
+export 'chicken_sprite.dart';
