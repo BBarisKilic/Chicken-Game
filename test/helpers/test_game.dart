@@ -5,8 +5,14 @@ class TestGame extends ChickenGame {
 
   @override
   Future<void>? onLoad() async {
-    final futures = preLoadAssets().map((loadableBuilder) => loadableBuilder());
-    await Future.wait<void>(futures);
+    final futures = [
+      ...preLoadAssets(),
+    ];
+
+    await Future.wait<void>(
+      futures.map((loadableBuilder) => loadableBuilder()).toList(),
+    );
+
     return super.onLoad();
   }
 }

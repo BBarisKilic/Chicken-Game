@@ -34,7 +34,7 @@ void main() {
     });
 
     group('components', () {
-      flameTester.test('has only one ChickenSpriteComponent', (game) async {
+      flameTester.test('has only one ChickenSprite', (game) async {
         await game.ready();
 
         expect(

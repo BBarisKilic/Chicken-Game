@@ -13,16 +13,10 @@ class _MockAssetsManagerCubit extends MockCubit<AssetsManagerState>
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  late TestGame game;
   late _MockAssetsManagerCubit mockAssetsManagerCubit;
 
   setUpAll(() async {
-    game = TestGame();
     mockAssetsManagerCubit = _MockAssetsManagerCubit();
-
-    await Future.wait<void>(
-      game.preLoadAssets().map((loadableBuilder) => loadableBuilder()),
-    );
 
     await di.initializeDependencies();
     await di.injector.unregister<AssetsManagerCubit>();
@@ -45,23 +39,27 @@ void main() {
 
   group('ChickenGamePage', () {
     testWidgets('renders LoadingPage', (tester) async {
-      arrangeState(const AssetsManagerState.initial());
-      arrangeLoad();
+      await tester.runAsync(() async {
+        arrangeState(const AssetsManagerState.initial());
+        arrangeLoad();
 
-      await tester.pumpApp(const ChickenGamePage());
-      await tester.pump();
+        await tester.pumpApp(const ChickenGamePage());
+        await tester.pump();
 
-      expect(find.byType(LoadingPage), findsOneWidget);
+        expect(find.byType(LoadingPage), findsOneWidget);
+      });
     });
 
     testWidgets('renders ChickenGameLoadedView', (tester) async {
-      arrangeState(const AssetsManagerState(assetsCount: 1, loaded: 1));
-      arrangeLoad();
+      await tester.runAsync(() async {
+        arrangeState(const AssetsManagerState(assetsCount: 1, loaded: 1));
+        arrangeLoad();
 
-      await tester.pumpApp(const ChickenGamePage());
-      await tester.pump();
+        await tester.pumpApp(const ChickenGamePage());
+        await tester.pump();
 
-      expect(find.byType(ChickenGameLoadedView), findsOneWidget);
+        expect(find.byType(ChickenGameLoadedView), findsOneWidget);
+      });
     });
   });
 }

@@ -33,25 +33,27 @@ void main() {
 
   group('LoadingPage', () {
     testWidgets('renders LinearProgressIndicator', (tester) async {
-      await tester.pumpApp(
-        const LoadingPage(progress: 0),
-      );
+      await tester.runAsync(() async {
+        await tester.pumpApp(const LoadingPage(progress: 0));
 
-      expect(find.byType(LinearProgressIndicator), findsOneWidget);
+        expect(find.byType(LinearProgressIndicator), findsOneWidget);
+      });
     });
 
     testWidgets('shows correct progress', (tester) async {
-      arrangeState(const AssetsManagerState(assetsCount: 2, loaded: 1));
+      await tester.runAsync(() async {
+        arrangeState(const AssetsManagerState(assetsCount: 2, loaded: 1));
 
-      await tester.pumpApp(
-        LoadingPage(progress: mockAssetsManagerCubit.state.progress),
-      );
+        await tester.pumpApp(
+          LoadingPage(progress: mockAssetsManagerCubit.state.progress),
+        );
 
-      final finder = find.byType(LinearProgressIndicator);
-      final linearProgressIndicator =
-          finder.evaluate().single.widget as LinearProgressIndicator;
+        final finder = find.byType(LinearProgressIndicator);
+        final linearProgressIndicator =
+            finder.evaluate().single.widget as LinearProgressIndicator;
 
-      expect(linearProgressIndicator.value, equals(0.5));
+        expect(linearProgressIndicator.value, equals(0.5));
+      });
     });
   });
 }

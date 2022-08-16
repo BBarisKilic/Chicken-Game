@@ -6,20 +6,22 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  setUpAll(() async {
+  setUp(() async {
     await di.initializeDependencies();
   });
 
-  tearDownAll(() async {
+  tearDown(() async {
     await di.injector.reset();
   });
 
   group('App', () {
     testWidgets('renders ChickenGamePage', (tester) async {
-      await tester.pumpWidget(const App());
-      await tester.pump(const Duration(seconds: 1));
+      await tester.runAsync(() async {
+        await tester.pumpWidget(const App());
+        await tester.pump();
 
-      expect(find.byType(ChickenGamePage), findsOneWidget);
+        expect(find.byType(ChickenGamePage), findsOneWidget);
+      });
     });
   });
 }
