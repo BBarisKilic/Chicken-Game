@@ -12,8 +12,7 @@ class KeyboardMovingBehavior extends Behavior<Chicken>
     required this.downKey,
     required this.leftKey,
     required this.rightKey,
-  })  : _isFlipped = false,
-        _movementX = 0,
+  })  : _movementX = 0,
         _movementY = 0;
 
   final double speed;
@@ -21,7 +20,7 @@ class KeyboardMovingBehavior extends Behavior<Chicken>
   final LogicalKeyboardKey downKey;
   final LogicalKeyboardKey leftKey;
   final LogicalKeyboardKey rightKey;
-  bool _isFlipped;
+
   double _movementX;
   double _movementY;
 
@@ -68,14 +67,16 @@ class KeyboardMovingBehavior extends Behavior<Chicken>
   }
 
   void _updateChickenDirection() {
-    if (_movementX > 0 && !_isFlipped) {
-      _isFlipped = true;
-      parent.flipHorizontallyAroundCenter();
+    if (_movementX > 0 && !parent.isFlipped) {
+      parent
+        ..isFlipped = true
+        ..flipHorizontallyAroundCenter();
     }
 
-    if (_movementX < 0 && _isFlipped) {
-      _isFlipped = false;
-      parent.flipHorizontallyAroundCenter();
+    if (_movementX < 0 && parent.isFlipped) {
+      parent
+        ..isFlipped = false
+        ..flipHorizontallyAroundCenter();
     }
   }
 

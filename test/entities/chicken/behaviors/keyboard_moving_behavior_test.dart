@@ -139,13 +139,13 @@ void main() {
       final rightKeysPressed = {LogicalKeyboardKey.arrowRight};
       final leftKeysPressed = {LogicalKeyboardKey.arrowLeft};
 
-      game.onKeyEvent(event, rightKeysPressed);
+      game.onKeyEvent(event, leftKeysPressed);
       game.update(1);
 
-      game.onKeyEvent(event, leftKeysPressed);
+      game.onKeyEvent(event, rightKeysPressed);
       game.update(2);
 
-      expect(chicken.position.x, equals(centerX - speed));
+      expect(chicken.position.x, equals(centerX + speed));
     });
 
     flameTester.test('motionless as expected', (game) async {
