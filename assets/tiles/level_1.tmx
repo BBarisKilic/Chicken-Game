@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.1" orientation="orthogonal" renderorder="right-down" width="80" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="21">
+<map version="1.9" tiledversion="1.9.1" orientation="orthogonal" renderorder="right-down" width="80" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="21">
  <tileset firstgid="1" name="terrain_16_16" tilewidth="16" tileheight="16" tilecount="242" columns="22">
   <image source="../images/world/terrain_16_16.png" width="352" height="176"/>
  </tileset>
@@ -12,7 +12,7 @@
   </data>
  </layer>
  <objectgroup id="2" name="ground">
-  <object id="2" x="0.25" y="592" width="479.75" height="47"/>
+  <object id="2" x="1.25" y="592" width="479.75" height="47"/>
   <object id="3" x="480.75" y="545" width="95.75" height="94.75"/>
   <object id="5" x="577.25" y="497.25" width="93.75" height="142.75"/>
   <object id="7" x="672.667" y="433" width="95.5833" height="206.667"/>
