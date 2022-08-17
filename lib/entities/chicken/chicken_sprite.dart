@@ -8,7 +8,8 @@ class ChickenSprite extends SpriteAnimationGroupComponent<ChickenState>
   ChickenSprite({
     ChickenState state = const ChickenState.idle(),
     required Vector2 textureSize,
-  })  : _state = state,
+  })
+      : _state = state,
         _textureSize = textureSize,
         super();
 
@@ -45,6 +46,7 @@ class ChickenSprite extends SpriteAnimationGroupComponent<ChickenState>
     };
 
     current = _state;
+
 
     return super.onLoad();
   }

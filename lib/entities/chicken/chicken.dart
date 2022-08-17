@@ -1,9 +1,11 @@
 import 'package:chicken_game/entities/entities.dart';
+import 'package:chicken_game/game/game.dart';
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame_behaviors/flame_behaviors.dart';
 import 'package:flutter/services.dart';
 
-class Chicken extends Entity {
+class Chicken extends Entity with HasGameRef<ChickenGame> {
   Chicken({
     Vector2? center,
     required LogicalKeyboardKey upKey,
@@ -11,27 +13,38 @@ class Chicken extends Entity {
     required LogicalKeyboardKey leftKey,
     required LogicalKeyboardKey rightKey,
   }) : this._(
-          center: center ?? Vector2.all(200),
-          movingBehavior: KeyboardMovingBehavior(
-            upKey: upKey,
-            downKey: downKey,
-            leftKey: leftKey,
-            rightKey: rightKey,
-          ),
+          center: center ?? Vector2(20, 575),
+          behaviors: [
+            ChickenGravityBehavior(),
+            GroundCollidingBehavior(),
+            KeyboardMovingBehavior(
+              upKey: upKey,
+              downKey: downKey,
+              leftKey: leftKey,
+              rightKey: rightKey,
+            ),
+          ],
           chickenSprite: ChickenSprite(textureSize: _chickenSize)
-            ..size = _chickenScaleFactor,
+            ..size = _chickenSize,
         );
 
   Chicken._({
     required Vector2 center,
-    required Behavior movingBehavior,
+    required Iterable<Behavior> behaviors,
     required ChickenSprite chickenSprite,
   })  : _chickenSprite = chickenSprite,
+        velocity = Vector2.zero(),
         super(
+          size: _chickenSize,
           position: center,
           anchor: Anchor.center,
-          behaviors: [movingBehavior],
-          children: [chickenSprite],
+          behaviors: [
+            PropagatingCollisionBehavior(RectangleHitbox()),
+            ...behaviors,
+          ],
+          children: [
+            chickenSprite,
+          ],
         );
 
   Chicken.wasd({
@@ -55,10 +68,20 @@ class Chicken extends Entity {
         );
 
   final ChickenSprite _chickenSprite;
+  final Vector2 velocity;
+  bool onGround = true;
+  bool isFlipped = false;
+
+  @override
+  Future<void>? onLoad() {
+    flipHorizontallyAroundCenter();
+    isFlipped = true;
+
+    return super.onLoad();
+  }
 
   void updateState({required ChickenState state}) =>
       _chickenSprite.updateState(state: state);
 
   static final _chickenSize = Vector2(32, 34);
-  static final _chickenScaleFactor = _chickenSize * 2.0;
 }
