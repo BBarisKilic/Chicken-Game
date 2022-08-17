@@ -1,5 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:chicken_game/assets_manager/cubit/assets_manager_cubit.dart';
+import 'package:chicken_game/assets_manager/assets_manager.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../helpers/test_game.dart';

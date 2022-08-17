@@ -1,6 +1,5 @@
 // ignore_for_file: cascade_invocations
 
-import 'package:chicken_game/entities/chicken/behaviors/behaviors.dart';
 import 'package:chicken_game/entities/entities.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame_test/flame_test.dart';
@@ -129,7 +128,7 @@ void main() {
       expect(chicken.position.x, equals(centerX - speed));
     });
 
-    flameTester.test('flippes as expected', (game) async {
+    flameTester.test('flips as expected', (game) async {
       final centerX = game.size.x / 2;
       final chicken = Chicken.arrows(center: Vector2(centerX, 0));
 

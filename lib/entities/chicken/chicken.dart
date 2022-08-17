@@ -1,6 +1,4 @@
-import 'package:chicken_game/components/components.dart';
-import 'package:chicken_game/entities/chicken/behaviors/behaviors.dart';
-import 'package:chicken_game/entities/chicken/states/states.dart';
+import 'package:chicken_game/entities/entities.dart';
 import 'package:flame/components.dart';
 import 'package:flame_behaviors/flame_behaviors.dart';
 import 'package:flutter/services.dart';

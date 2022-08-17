@@ -1,7 +1,5 @@
 // ignore_for_file: cascade_invocations
 
-import 'package:chicken_game/components/components.dart';
-import 'package:chicken_game/entities/chicken/behaviors/behaviors.dart';
 import 'package:chicken_game/entities/entities.dart';
 import 'package:chicken_game/game/game.dart';
 import 'package:flame_test/flame_test.dart';

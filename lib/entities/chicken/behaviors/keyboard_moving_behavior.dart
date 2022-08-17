@@ -1,4 +1,3 @@
-import 'package:chicken_game/entities/chicken/states/chicken_state.dart';
 import 'package:chicken_game/entities/entities.dart';
 import 'package:chicken_game/game/game.dart';
 import 'package:flame/components.dart';
