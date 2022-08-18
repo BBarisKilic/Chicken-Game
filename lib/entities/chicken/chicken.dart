@@ -3,6 +3,7 @@ import 'package:chicken_game/game/game.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame_behaviors/flame_behaviors.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class Chicken extends Entity with HasGameRef<ChickenGame> {
@@ -29,11 +30,12 @@ class Chicken extends Entity with HasGameRef<ChickenGame> {
         );
 
   Chicken._({
+    Vector2? velocity,
     required Vector2 center,
     required Iterable<Behavior> behaviors,
     required ChickenSprite chickenSprite,
   })  : _chickenSprite = chickenSprite,
-        velocity = Vector2.zero(),
+        velocity = velocity ?? Vector2.zero(),
         super(
           size: _chickenSize,
           position: center,
@@ -65,6 +67,19 @@ class Chicken extends Entity with HasGameRef<ChickenGame> {
           downKey: LogicalKeyboardKey.arrowDown,
           leftKey: LogicalKeyboardKey.arrowLeft,
           rightKey: LogicalKeyboardKey.arrowRight,
+        );
+
+  @visibleForTesting
+  Chicken.test({
+    Vector2? velocity,
+    Vector2? center,
+    Behavior? behavior,
+  }) : this._(
+          velocity: velocity,
+          center: center ?? Vector2(20, 575),
+          behaviors: [if (behavior != null) behavior],
+          chickenSprite: ChickenSprite(textureSize: _chickenSize)
+            ..size = _chickenSize,
         );
 
   final ChickenSprite _chickenSprite;
