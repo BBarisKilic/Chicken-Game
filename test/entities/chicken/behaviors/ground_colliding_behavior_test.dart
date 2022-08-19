@@ -23,22 +23,76 @@ void main() {
   group('GroundCollidingBehavior', () {
     final flameTester = FlameTester<TestGame>(TestGame.new);
 
-    flameTester.test('stops when the collision start', (game) async {
+    flameTester.test('detects when bottom touches', (game) async {
       final chicken = Chicken.test(
-        velocity: Vector2(0, 10),
         center: Vector2(0, 0),
         behavior: groundCollidingBehavior,
       );
 
       await game.ready();
       await game.ensureAdd(chicken);
-
-      expect(chicken.velocity.y, equals(10));
+      chicken.isBottomTouching = false;
 
       groundCollidingBehavior
           .onCollision({Vector2(0, 0), Vector2(10, 10)}, _MockGround());
 
-      expect(chicken.velocity.y, equals(0));
+      expect(chicken.isBottomTouching, isTrue);
+    });
+
+    flameTester.test('detects when top touches', (game) async {
+      final chicken = Chicken.test(
+        center: Vector2(0, 200),
+        behavior: groundCollidingBehavior,
+      );
+
+      await game.ready();
+      await game.ensureAdd(chicken);
+
+      expect(chicken.isTopTouching, isFalse);
+
+      groundCollidingBehavior
+          .onCollision({Vector2(0, 0), Vector2(10, 0)}, _MockGround());
+
+      expect(chicken.isTopTouching, isTrue);
+    });
+
+    flameTester.test('detects when side(right) touches', (game) async {
+      final chicken = Chicken.test(
+        center: Vector2(10, 0),
+        behavior: groundCollidingBehavior,
+      );
+
+      await game.ready();
+      await game.ensureAdd(chicken);
+
+      expect(chicken.isLeftSideTouching, isFalse);
+      expect(chicken.isRightSideTouching, isFalse);
+
+      groundCollidingBehavior
+          .onCollision({Vector2(11, 0), Vector2(12, 10)}, _MockGround());
+
+      expect(chicken.isLeftSideTouching, isFalse);
+      expect(chicken.isRightSideTouching, isTrue);
+    });
+
+    flameTester.test('detects when side(left) touches', (game) async {
+      final chicken = Chicken.test(
+        center: Vector2(10, 0),
+        behavior: groundCollidingBehavior,
+      );
+
+      await game.ready();
+      await game.ensureAdd(chicken);
+
+      expect(chicken.isLeftSideTouching, isFalse);
+      expect(chicken.isRightSideTouching, isFalse);
+
+      chicken.isFlipped = false;
+      groundCollidingBehavior
+          .onCollision({Vector2(8, 0), Vector2(9, 10)}, _MockGround());
+
+      expect(chicken.isLeftSideTouching, isTrue);
+      expect(chicken.isRightSideTouching, isFalse);
     });
 
     flameTester.test('bottom is not touching when the collision end',
