@@ -28,8 +28,7 @@ void main() {
 
   setUp(() {
     keyboardMovingBehavior = KeyboardMovingBehavior(
-      upKey: LogicalKeyboardKey.arrowUp,
-      downKey: LogicalKeyboardKey.arrowDown,
+      jumpKey: LogicalKeyboardKey.arrowUp,
       leftKey: LogicalKeyboardKey.arrowLeft,
       rightKey: LogicalKeyboardKey.arrowRight,
     );
@@ -37,21 +36,12 @@ void main() {
 
   group('KeyboardMovingBehavior', () {
     final flameTester = FlameTester<TestGame>(TestGame.new);
-    const speed = 100;
 
     group('initial', () {
-      test('speed is 100', () {
-        expect(keyboardMovingBehavior.speed, equals(100));
-      });
-
       test('keys are correct', () {
         expect(
-          keyboardMovingBehavior.upKey,
+          keyboardMovingBehavior.jumpKey,
           equals(LogicalKeyboardKey.arrowUp),
-        );
-        expect(
-          keyboardMovingBehavior.downKey,
-          equals(LogicalKeyboardKey.arrowDown),
         );
         expect(
           keyboardMovingBehavior.leftKey,
@@ -64,25 +54,10 @@ void main() {
       });
     });
 
-    flameTester.test('moves down as expected', (game) async {
-      final centerY = game.size.y / 2;
-      final chicken = Chicken.wasd(center: Vector2(0, centerY));
-
-      await game.ready();
-      await game.ensureAdd(chicken);
-
-      final event = _RawKeyEvent();
-      final keysPressed = {LogicalKeyboardKey.keyS};
-
-      game.onKeyEvent(event, keysPressed);
-      game.update(1);
-
-      expect(chicken.position.y, equals(centerY + speed));
-    });
-
-    flameTester.test('moves up as expected', (game) async {
-      final centerY = game.size.y / 2;
-      final chicken = Chicken.arrows(center: Vector2(0, centerY));
+    flameTester.test('jumps as expected', (game) async {
+      final chicken = Chicken.test(
+        behavior: keyboardMovingBehavior,
+      );
 
       await game.ready();
       await game.ensureAdd(chicken);
@@ -90,31 +65,35 @@ void main() {
       final event = _RawKeyEvent();
       final keysPressed = {LogicalKeyboardKey.arrowUp};
 
-      game.onKeyEvent(event, keysPressed);
-      game.update(1);
+      expect(chicken.velocity.y, equals(0));
 
-      expect(chicken.position.y, equals(centerY - speed));
+      keyboardMovingBehavior.onKeyEvent(event, keysPressed);
+
+      expect(chicken.velocity.y, equals(-110));
     });
 
     flameTester.test('moves right as expected', (game) async {
-      final centerX = game.size.x / 2;
-      final chicken = Chicken.wasd(center: Vector2(centerX, 0));
+      final chicken = Chicken.test(
+        behavior: keyboardMovingBehavior,
+      );
 
       await game.ready();
       await game.ensureAdd(chicken);
 
       final event = _RawKeyEvent();
-      final keysPressed = {LogicalKeyboardKey.keyD};
+      final keysPressed = {LogicalKeyboardKey.arrowRight};
 
-      game.onKeyEvent(event, keysPressed);
-      game.update(1);
+      expect(chicken.velocity.x, equals(0));
 
-      expect(chicken.position.x, equals(centerX + speed));
+      keyboardMovingBehavior.onKeyEvent(event, keysPressed);
+
+      expect(chicken.velocity.x, equals(120));
     });
 
     flameTester.test('moves left as expected', (game) async {
-      final centerX = game.size.x / 2;
-      final chicken = Chicken.arrows(center: Vector2(centerX, 0));
+      final chicken = Chicken.test(
+        behavior: keyboardMovingBehavior,
+      );
 
       await game.ready();
       await game.ensureAdd(chicken);
@@ -122,35 +101,40 @@ void main() {
       final event = _RawKeyEvent();
       final keysPressed = {LogicalKeyboardKey.arrowLeft};
 
-      game.onKeyEvent(event, keysPressed);
-      game.update(1);
+      expect(chicken.velocity.x, equals(0));
 
-      expect(chicken.position.x, equals(centerX - speed));
+      keyboardMovingBehavior.onKeyEvent(event, keysPressed);
+
+      expect(chicken.velocity.x, equals(-120));
     });
 
     flameTester.test('flips as expected', (game) async {
-      final centerX = game.size.x / 2;
-      final chicken = Chicken.arrows(center: Vector2(centerX, 0));
+      final chicken = Chicken.test(
+        behavior: keyboardMovingBehavior,
+      );
 
       await game.ready();
       await game.ensureAdd(chicken);
 
       final event = _RawKeyEvent();
-      final rightKeysPressed = {LogicalKeyboardKey.arrowRight};
       final leftKeysPressed = {LogicalKeyboardKey.arrowLeft};
+      final rightKeysPressed = {LogicalKeyboardKey.arrowRight};
 
-      game.onKeyEvent(event, leftKeysPressed);
+      keyboardMovingBehavior.onKeyEvent(event, leftKeysPressed);
       game.update(1);
 
-      game.onKeyEvent(event, rightKeysPressed);
-      game.update(2);
+      expect(chicken.isFlipped, isFalse);
 
-      expect(chicken.position.x, equals(centerX + speed));
+      keyboardMovingBehavior.onKeyEvent(event, rightKeysPressed);
+      game.update(1);
+
+      expect(chicken.isFlipped, isTrue);
     });
 
     flameTester.test('motionless as expected', (game) async {
-      final centerY = game.size.y / 2;
-      final chicken = Chicken.wasd(center: Vector2(0, centerY));
+      final chicken = Chicken.test(
+        behavior: keyboardMovingBehavior,
+      );
 
       await game.ready();
       await game.ensureAdd(chicken);
@@ -158,10 +142,9 @@ void main() {
       final event = _RawKeyEvent();
       final keysPressed = <LogicalKeyboardKey>{};
 
-      game.onKeyEvent(event, keysPressed);
-      game.update(1);
+      keyboardMovingBehavior.onKeyEvent(event, keysPressed);
 
-      expect(chicken.position.y, equals(centerY));
+      expect(chicken.velocity, equals(Vector2.zero()));
     });
 
     flameTester.test('key events are handled', (game) {
