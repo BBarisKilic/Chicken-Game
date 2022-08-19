@@ -7,73 +7,59 @@ import 'package:flutter/services.dart';
 class KeyboardMovingBehavior extends Behavior<Chicken>
     with KeyboardHandler, HasGameRef<ChickenGame> {
   KeyboardMovingBehavior({
-    this.speed = 100,
-    required this.upKey,
-    required this.downKey,
+    required this.jumpKey,
     required this.leftKey,
     required this.rightKey,
-  })  : _movementX = 0,
-        _movementY = 0;
+  });
 
-  final double speed;
-  final LogicalKeyboardKey upKey;
-  final LogicalKeyboardKey downKey;
+  final LogicalKeyboardKey jumpKey;
   final LogicalKeyboardKey leftKey;
   final LogicalKeyboardKey rightKey;
 
-  double _movementX;
-  double _movementY;
-
   @override
   bool onKeyEvent(RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
-    _setMovementX(keysPressed);
-    _setMovementY(keysPressed);
+    _setVelocityX(keysPressed);
+    _setVelocityY(keysPressed);
 
     return super.onKeyEvent(event, keysPressed);
   }
 
-  void _setMovementX(Set<LogicalKeyboardKey> keysPressed) {
-    if (keysPressed.contains(leftKey)) {
-      _movementX = -1;
-    } else if (keysPressed.contains(rightKey)) {
-      _movementX = 1;
+  void _setVelocityX(Set<LogicalKeyboardKey> keysPressed) {
+    if (keysPressed.contains(leftKey) && !parent.isLeftSideTouching) {
+      parent.isWalking = true;
+      parent.velocity.x = -120;
+    } else if (keysPressed.contains(rightKey) && !parent.isRightSideTouching) {
+      parent.isWalking = true;
+      parent.velocity.x = 120;
     } else {
-      _movementX = 0;
+      parent.isWalking = false;
     }
   }
 
-  void _setMovementY(Set<LogicalKeyboardKey> keysPressed) {
-    if (keysPressed.contains(upKey)) {
-      _movementY = -1;
-    } else if (keysPressed.contains(downKey)) {
-      _movementY = 1;
-    } else {
-      _movementY = 0;
-    }
+  void _setVelocityY(Set<LogicalKeyboardKey> keysPressed) {
+    if (!keysPressed.contains(jumpKey)) return;
+    if (parent.velocity.y != 0) return;
+    if (parent.isTopTouching) return;
+
+    parent.velocity.y -= 110;
   }
 
   @override
   void update(double dt) {
-    _updateChickenPosition(dt);
     _updateChickenDirection();
     _updateChickenState();
 
     super.update(dt);
   }
 
-  void _updateChickenPosition(double dt) {
-    parent.position.y += _movementY * speed * dt;
-    parent.position.x += _movementX * speed * dt;
-  }
-
   void _updateChickenDirection() {
-    if (_movementX > 0 && !parent.isFlipped) {
+    if (parent.velocity.x > 0 && !parent.isFlipped) {
       parent
         ..isFlipped = true
         ..flipHorizontallyAroundCenter();
     }
 
-    if (_movementX < 0 && parent.isFlipped) {
+    if (parent.velocity.x < 0 && parent.isFlipped) {
       parent
         ..isFlipped = false
         ..flipHorizontallyAroundCenter();
@@ -81,7 +67,7 @@ class KeyboardMovingBehavior extends Behavior<Chicken>
   }
 
   void _updateChickenState() {
-    if (_movementX == 0 && _movementY == 0) {
+    if (parent.velocity.x == 0) {
       parent.updateState(state: const ChickenState.idle());
     } else {
       parent.updateState(state: const ChickenState.walking());

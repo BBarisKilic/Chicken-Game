@@ -14,7 +14,6 @@ class ChickenSprite extends SpriteAnimationGroupComponent<ChickenState>
 
   final ChickenState _state;
   final Vector2 _textureSize;
-  final int number = 10;
 
   @override
   Future<void>? onLoad() async {
